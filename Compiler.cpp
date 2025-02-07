@@ -82,3 +82,45 @@ static int getTok() {
     LastChar = getchar();
     return ThisChar;
 }
+
+class Export{
+public:
+    virtual ~Export() = default;
+};
+
+class NumberExport : public Export{
+    double val;
+
+public:
+    NumberExport(double val) : Val(Val) {};
+};
+
+class VariableNameExport : public Export{
+    string VariableName;
+public:
+    VariableNameExport(string &Name) : Name(Name){}
+};
+
+class BinaryOperator : public Export{
+    char Operator;
+    unique_ptr<Export> LeftSide;
+    unique_ptr<Export> RightSide;
+public :
+    BinaryOperator(char Operator, unique_ptr<Export> LeftSide, unique_ptr<Export> RightSide) : Operator(Operator), LeftSide(move(LeftSide)), RightSide(move(RightSide)){};
+};
+
+class FunctionCallExport : public Export{
+    string FunctionCall;
+    vector<unique_ptr<Export>> Arguments;
+public:
+    FunctionCallExport(string FunctionCall,vector<unique_ptr<Export>> Arguments) : FunctionCall(FunctionCall), Arguments(move(Arguments)){}
+};
+
+class FunctionPrototype : public Export{
+    string FunctionName;
+    vector<unique_ptr> FunctionBody;
+public:
+    FunctionPrototype(string FunctionName,vector<unique_ptr> FunctionBody) : FunctionBody(move(FunctionBody)), FunctionName(FunctionName){}
+};
+
+
